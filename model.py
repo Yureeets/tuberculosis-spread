@@ -1,3 +1,5 @@
+import random
+
 import mesa
 import numpy as np
 from mesa.space import ContinuousSpace
@@ -5,6 +7,7 @@ from settings import config
 from agent import Person
 from settings import config_colors
 from loadgraph import cities_data
+import math
 
 
 class VirusModel(mesa.Model):
@@ -15,14 +18,23 @@ class VirusModel(mesa.Model):
         self.space = ContinuousSpace(config['width'], config['height'], torus=False)
         self.schedule = mesa.time.RandomActivation(self)
 
-        self._initialize_agents()
-        self._infect_agents()
+        print(current_city)
+        if 'Ukraine' in current_city:
+            self.latent = True
+        else:
+            self.latent = False
+            self._infect_agents()
+        self._initialize_agents(latent=self.latent)
 
-    def _initialize_agents(self):
+
+    def _initialize_agents(self, latent=False):
         """Initialize agents in continuous space based on node positions."""
         for _, node_data in self.nodes.iterrows():
             lat, lon = node_data['x'], node_data['y']
-            person = Person(self.next_id(), self, lat, lon)
+            if latent and random.random() < 0.9:
+                person = Person(self.next_id(), self, lat, lon,status=Person.LATENT)
+            else:
+                person = Person(self.next_id(), self, lat, lon)
             self.space.place_agent(person, (lat, lon))  # Using (lat, lon) directly
             self.schedule.add(person)
 
@@ -62,9 +74,9 @@ class VirusModel(mesa.Model):
                 opacity[i] = 1
             elif agent.status == Person.LATENT:
                 sizes[i] = 10
-                opacity[i] = 0.6
+                opacity[i] = 0.4
             else:
                 sizes[i] = 8
-                opacity[i] = 0.4
+                opacity[i] = 0.2
 
         return x_data, y_data, colors, sizes, opacity
