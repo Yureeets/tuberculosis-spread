@@ -55,18 +55,18 @@ The dashboard consists of the following components:
    Configuration
    The simulation can be customized by editing the following files:
 
-
-
 ## File Structure
 
-tuberculosis-simulation/
-├── app.py # Main application file for the Dash dashboard
-├── model.py # VirusModel class implementing the simulation
-├── agent.py # Definition of the Person agent
-├── settings.py # Configuration settings for the simulation
-├── loadgraph.py # Data loader for city-specific graph data
-├── requirements.txt # Python dependencies
-└── README.md # Project documentation
+   ```bash
+   tuberculosis-simulation/
+   ├── app.py # Main application file for the Dash dashboard
+   ├── model.py # VirusModel class implementing the simulation
+   ├── agent.py # Definition of the Person agent
+   ├── settings.py # Configuration settings for the simulation
+   ├── loadgraph.py # Data loader for city-specific graph data
+   ├── requirements.txt # Python dependencies
+   └── README.md # Project documentation
+   ```
 
 ## How It Works
 1. Initialization:
